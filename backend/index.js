@@ -12,7 +12,6 @@ dbConection();
 
 const app = express();
 const router = express.Router();
-
 app.use(cors(
     {
         origin:"http://localhost:5173",

@@ -10,11 +10,10 @@ const getAllCategories = async (req, res) => {
 };
 
 const addCategory = async (req, res) => {
-  const { categoryName, subcategories, imageUrl } = req.body;
+  const { categoryName, imageUrl } = req.body;
   try {
     const newCategory = new Category({
       categoryName,
-      subcategories,
       imageUrl,
     });
     const savedCategory = await newCategory.save();
@@ -26,11 +25,11 @@ const addCategory = async (req, res) => {
 
 const editCategory = async (req, res) => {
   const { id } = req.params;
-  const { categoryName, subcategories, imageUrl } = req.body;
+  const { categoryName, imageUrl } = req.body;
   try {
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
-      { categoryName, subcategories, imageUrl },
+      { categoryName, imageUrl },
       { new: true }
     );
     if (!updatedCategory) {
