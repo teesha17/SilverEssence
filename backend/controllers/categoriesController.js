@@ -2,12 +2,21 @@ const Category = require('../models/categories');
 
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find().populate('subcategories'); 
+    // Retrieve categories without populating subcategories
+    const categories = await Category.find(); 
+    
+    // Check if categories were found
+    if (categories.length === 0) {
+      return res.status(204).json({ message: 'No categories found' });
+    }
+
     res.status(200).json(categories);
   } catch (error) {
-    res.status(500).json({ message: 'Error retrieving categories', error });
+    console.error('Error retrieving categories:', error); // Log the error for debugging
+    res.status(500).json({ message: 'Error retrieving categories', error: error.message });
   }
 };
+
 
 const addCategory = async (req, res) => {
   const { categoryName, imageUrl } = req.body;
