@@ -1,7 +1,6 @@
-const Subcategory = require('../models/subcategories');
+const Subcategory = require('../models/subCategories');
 const mongoose = require('mongoose');
 
-// Fetch all subcategories
 const getAllSubcategories = async (req, res) => {
   try {
     const subcategories = await Subcategory.find().populate('category'); 
