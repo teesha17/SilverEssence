@@ -2,21 +2,23 @@ const Category = require('../models/categories');
 
 const getAllCategories = async (req, res) => {
   try {
-    // Retrieve categories without populating subcategories
-    const categories = await Category.find(); 
+    const customHeader = req.headers['access-token'];
     
-    // Check if categories were found
-    if (categories.length === 0) {
-      return res.status(204).json({ message: 'No categories found' });
+    if (!customHeader) {
+      return res.status(400).json({ message: 'Access token not provided!' });
     }
 
-    res.status(200).json(categories);
+    if (customHeader === process.env.accessToken) {
+      const categories = await Category.find();
+      res.status(200).json(categories);
+    } else {
+      return res.status(403).json({ message: 'Unauthorized access!' });
+    }
   } catch (error) {
-    console.error('Error retrieving categories:', error); // Log the error for debugging
-    res.status(500).json({ message: 'Error retrieving categories', error: error.message });
+    console.error('Error fetching categories:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 
 const addCategory = async (req, res) => {
   const { categoryName, imageUrl } = req.body;
@@ -33,33 +35,61 @@ const addCategory = async (req, res) => {
 };
 
 const editCategory = async (req, res) => {
-  const { id } = req.params;
   const { categoryName, imageUrl } = req.body;
+  const { categoryId} = req.params;
   try {
-    const updatedCategory = await Category.findByIdAndUpdate(
-      id,
-      { categoryName, imageUrl },
-      { new: true }
-    );
-    if (!updatedCategory) {
-      return res.status(404).json({ message: 'Category not found' });
+    const customHeader = req.headers['access-token'];
+    if (!customHeader) {
+      throw new Error('Header not provided!');
     }
-    res.status(200).json(updatedCategory);
+    const categorydetail = await Category.findById(categoryId);
+    if (!categorydetail) {
+      return res.status(404).json({ message: 'category not found' });
+    }
+    if (customHeader === process.env.accessToken) {
+      if (categoryName) {
+        categorydetail.categoryName = categoryName;
+      }
+      if (imageUrl) {
+        categorydetail.imageUrl = imageUrl;
+      }
+
+      await categorydetail.save();
+
+      return res.status(200).json({ message: 'category details updated successfully' });
+    } else {
+      throw new Error('Invalid header value!');
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error updating category', error });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
+
+
 const deleteCategory = async (req, res) => {
-  const { id } = req.params;
+  const { categoryId } = req.params;
   try {
-    const deletedCategory = await Category.findByIdAndDelete(id);
-    if (!deletedCategory) {
-      return res.status(404).json({ message: 'Category not found' });
+    const customHeader = req.headers['access-token'];
+    if (!customHeader) {
+      throw new Error('Header not provided!');
     }
-    res.status(200).json({ message: 'Category deleted successfully' });
+    if (customHeader === process.env.accessToken) {
+      const categorydetail = await Category.findById(categoryId);
+      if (!categorydetail) {
+        return res.status(404).json({ message: 'category not found' });
+      }
+
+      await Category.findByIdAndDelete(categoryId);
+
+      return res.status(200).json({ message: 'category deleted successfully' });
+    } else {
+      throw new Error('Invalid header value!');
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting category', error });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 

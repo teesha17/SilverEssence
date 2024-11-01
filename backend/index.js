@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const dbConection = require('./dbConnection/dbConnection.js');
 const adminrouter = require('./routers/adminRoles.js');
+const userRouter = require("./routers/userRoles.js")
 const cookieParser = require('cookie-parser');
 const { adminLogin, adminRegister } = require('./controllers/adminController.js');
 const authenticateAdmin = require('./middleware/adminToken.js');
@@ -30,6 +31,7 @@ router.post('/logout', (req, res) => {
 });
 
 app.use('/api', router);
+app.use('/user',userRouter);
 app.use('/admin', authenticateAdmin, adminrouter);
 
 const PORT = process.env.PORT || 3000;

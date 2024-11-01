@@ -33,10 +33,6 @@ const itemSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 module.exports = mongoose.model('item', itemSchema);

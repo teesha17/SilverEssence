@@ -64,18 +64,28 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Delete a user
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
-
+  const { userId } = req.params;
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
-    if (!deletedUser) {
-      return res.status(404).json({ message: 'User not found' });
+    const customHeader = req.headers['access-token'];
+    if (!customHeader) {
+      throw new Error('Header not provided!');
     }
-    res.status(200).json({ message: 'User deleted successfully' });
+    if (customHeader === process.env.accessToken) {
+      const userdetail = await User.findById(userId);
+      if (!userdetail) {
+        return res.status(404).json({ message: 'user not found' });
+      }
+
+      await User.findByIdAndDelete(userId);
+
+      return res.status(200).json({ message: 'user deleted successfully' });
+    } else {
+      throw new Error('Invalid header value!');
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting user', error });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 

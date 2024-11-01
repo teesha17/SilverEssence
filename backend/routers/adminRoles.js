@@ -6,6 +6,7 @@ const {getAllCategories, addCategory, editCategory, deleteCategory,} = require("
 const {getAllItems, addItem, updateItem, deleteItem,} = require("../controllers/itemsController")
 const {getAllOrders, updateOrderStatus,} = require("../controllers/ordersController")
 const {getAllUsers,deleteUser,} = require("../controllers/userController")
+const {getAllSubcategories,addSubcategory,editSubcategory,deleteSubCategory} = require('../controllers/subcategoriesController')
 
 adminRouter.get('/getAllAdmins',getAllAdmins);
 adminRouter.put('/:adminId/adminupdate', updateAdmin);
@@ -22,6 +23,10 @@ adminRouter.get('/getAllOrders',getAllOrders);
 adminRouter.put('/:orderId/updateOrderStatus',updateOrderStatus);
 adminRouter.get('/getAllUsers',getAllUsers);
 adminRouter.delete('/:userId/userdelete',deleteUser);
+adminRouter.get('/getallsubcategories',getAllSubcategories);
+adminRouter.post('/addsubcategory',addSubcategory);
+adminRouter.put('/:subCategoryId/subcategoryupdate',editSubcategory);
+adminRouter.delete('/:subCategoryId/subcategorydelete',deleteSubCategory);
 
 module.exports = adminRouter;
 

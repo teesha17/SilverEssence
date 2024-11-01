@@ -10,12 +10,13 @@ const getAllItems = async (req, res) => {
 };
 
 const addItem = async (req, res) => {
-  const { itemName, description, price, category, stockQuantity, imageUrl } = req.body;
+  const { itemName, description, price, category,subCategory, stockQuantity, imageUrl } = req.body;
   try {
     const newItem = new Item({
       itemName,
       description,
       price,
+      subCategory,
       category,
       stockQuantity,
       imageUrl,
@@ -28,33 +29,74 @@ const addItem = async (req, res) => {
 };
 
 const updateItem = async (req, res) => {
-  const { id } = req.params;
-  const { itemName, description, price, category, stockQuantity, imageUrl } = req.body;
+  const { itemName,description,price,subCategory,category,stockQuantity,imageUrl, } = req.body;
+  const { itemId} = req.params;
   try {
-    const updatedItem = await Item.findByIdAndUpdate(
-      id,
-      { itemName, description, price, category, stockQuantity, imageUrl },
-      { new: true }
-    );
-    if (!updatedItem) {
-      return res.status(404).json({ message: 'Item not found' });
+    const customHeader = req.headers['access-token'];
+    if (!customHeader) {
+      throw new Error('Header not provided!');
     }
-    res.status(200).json(updatedItem);
+    const itemdetail = await Item.findById(itemId);
+    if (!itemdetail) {
+      return res.status(404).json({ message: 'item not found' });
+    }
+    if (customHeader === process.env.accessToken) {
+      if (itemName) {
+        itemdetail.itemName = itemName;
+      }
+      if (imageUrl) {
+        itemdetail.imageUrl = imageUrl;
+      }
+      if (description) {
+        itemdetail.description = description;
+      }
+      if (price) {
+        itemdetail.price = price;
+      }
+      if (subCategory) {
+        itemdetail.subCategory = subCategory;
+      }
+      if (category) {
+        itemdetail.category = category;
+      }
+      if (stockQuantity) {
+        itemdetail.stockQuantity = stockQuantity;
+      }
+
+      await itemdetail.save();
+
+      return res.status(200).json({ message: 'item details updated successfully' });
+    } else {
+      throw new Error('Invalid header value!');
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error updating item', error });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
 const deleteItem = async (req, res) => {
-  const { id } = req.params;
+  const { itemId } = req.params;
   try {
-    const deletedItem = await Item.findByIdAndDelete(id);
-    if (!deletedItem) {
-      return res.status(404).json({ message: 'Item not found' });
+    const customHeader = req.headers['access-token'];
+    if (!customHeader) {
+      throw new Error('Header not provided!');
     }
-    res.status(200).json({ message: 'Item deleted successfully' });
+    if (customHeader === process.env.accessToken) {
+      const itemdetail = await Item.findById(itemId);
+      if (!itemdetail) {
+        return res.status(404).json({ message: 'item not found' });
+      }
+
+      await Item.findByIdAndDelete(itemId);
+
+      return res.status(200).json({ message: 'item deleted successfully' });
+    } else {
+      throw new Error('Invalid header value!');
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting item', error });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 

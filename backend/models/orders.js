@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   },
   items: [
     {
-      product: {
+      item: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item', 
         required: true,
@@ -21,14 +21,14 @@ const orderSchema = new mongoose.Schema({
       price: {
         type: Number,
         required: true,
-      }
-    }
+      },
+    },
   ],
   shippingAddress: {
     address: { type: String, required: true },
     city: { type: String, required: true },
     postalCode: { type: String, required: true },
-    country: { type: String, required: true }
+    country: { type: String, required: true },
   },
   paymentMethod: {
     type: String,
