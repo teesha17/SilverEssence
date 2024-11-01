@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './AdminEditPage.css';
+import './EditAdmin.css'
 
 const EditAdmin = () => {
     const { id } = useParams();
@@ -15,7 +15,7 @@ const EditAdmin = () => {
 
     const fetchAdmin = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/admin/getAllAdmins', {
+            const response = await axios.get('https://silveressence.onrender.com/admin/getAllAdmins', {
                 headers: {
                     'access-token': 'tcZALrHkfh0fSe5WQkCuTtHGJbvn4VI1',
                     'adminauthorize': token,
@@ -44,7 +44,7 @@ const EditAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`https://campussociety.onrender.com/admin/${id}/adminupdate`, admin, {
+            await axios.put(`https://silveressence.onrender.com/admin/${id}/adminupdate`, admin, {
                 headers: {
                     'access-token': 'tcZALrHkfh0fSe5WQkCuTtHGJbvn4VI1',
                     'adminauthorize': token,

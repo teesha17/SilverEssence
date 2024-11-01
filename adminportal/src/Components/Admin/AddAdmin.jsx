@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './AddAdmin.css';
+import './AddAdmin.css'
 
 const AddAdmin = () => {
     const [name, setName] = useState('');
@@ -13,7 +13,7 @@ const AddAdmin = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/api/adminRegister', {
+            await axios.post('https://silveressence.onrender.com/api/adminRegister', {
                 name,
                 email,
                 password,

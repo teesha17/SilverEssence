@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Home.css'
 
 function HomePage() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
-        navigate('/');
+        navigate('/adminLogin');
     };
 
     return (
@@ -20,6 +21,7 @@ function HomePage() {
                 <Link to="/orders"><button className="nav-button">Orders</button></Link>
                 <Link to='/items'><button className="nav-button">items</button></Link>
                 <Link to='/categories'><button className="nav-button">Categories</button></Link>
+                <Link to='/subcategories'><button className="nav-button">SubCategories</button></Link>
             </div>
         </div>
     );

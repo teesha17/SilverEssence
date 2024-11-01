@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Admin.css'
 
 const AdminPage = () => {
     const [admins, setAdmins] = useState([]);
     const navigate = useNavigate();
     const token = localStorage.getItem('adminToken');
-    console.log(token)
 
     useEffect(() => {
         fetchAdmins();
@@ -13,7 +13,7 @@ const AdminPage = () => {
 
     const fetchAdmins = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/getAllAdmins', {
+            const response = await fetch('https://silveressence.onrender.com/admin/getAllAdmins', {
                 method: 'GET',
                 headers: {
                     'access-token': 'tcZALrHkfh0fSe5WQkCuTtHGJbvn4VI1',
@@ -21,7 +21,6 @@ const AdminPage = () => {
                     'Content-Type': 'application/json'
                 },
             });
-            console.log(response);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch admins');
@@ -40,7 +39,7 @@ const AdminPage = () => {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/${id}/admindelete`, {
+            const response = await fetch(`https://silveressence.onrender.com/admin/${id}/admindelete`, {
                 method: 'DELETE',
                 headers: {
                     'access-token': 'tcZALrHkfh0fSe5WQkCuTtHGJbvn4VI1',
@@ -65,7 +64,7 @@ const AdminPage = () => {
     };
 
     const handleBack = () => {
-        navigate('/home');
+        navigate('/');
     };
 
     return (

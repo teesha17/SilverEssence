@@ -1,0 +1,95 @@
+/* Category.css */
+
+.category-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+  }
+  
+  .back-button,
+  .add-category-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover,
+  .add-category-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .category-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .category-table th,
+  .category-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .category-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .category-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .category-table tr:hover {
+    background-color: #e9ecef;
+  }
+  
+  .category-table img {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button {
+    background-color: #28a745;
+    color: white;
+    margin-right: 5px;
+  }
+  
+  .edit-button:hover {
+    background-color: #218838;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  

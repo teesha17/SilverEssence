@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './AdminLogin.css'
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -11,18 +12,18 @@ const AdminLogin = () => {
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
         if (token) {
-            navigate('/home');
+            navigate('/');
         }
     }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:3000/api/adminLogin', { email, password });
+            const res = await axios.post('https://silveressence.onrender.com/api/adminLogin', { email, password });
             if (res.status === 200) {
                 const { token } = res.data;
                 localStorage.setItem('adminToken', token);
-                navigate('/home');
+                navigate('/');
             }
         } catch (err) {
             setError('Invalid email or password');
