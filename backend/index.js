@@ -15,7 +15,7 @@ const app = express();
 const router = express.Router();
 app.use(cors(
     {
-        origin:"http://localhost:5173",
+        origin:"https://silver-essence-admin.vercel.app",
         credentials:true
     }
 ));
