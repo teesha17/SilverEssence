@@ -15,7 +15,7 @@ const app = express();
 const router = express.Router();
 app.use(cors(
     {
-        origin:"https://silver-essence-admin.vercel.app",
+        origin:"https://silver-essence-admin.vercel.app/",
         credentials:true
     }
 ));
